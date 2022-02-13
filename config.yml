@@ -1,0 +1,6 @@
+requests :
+  streamers : 
+    - etoiles
+  delay : 60
+  start : 1644783120.0
+  end : 1644783370.0
