@@ -12,3 +12,6 @@ Part of Chrono-Break Project
     - *delay* define the time to wait between requests **(in ms)**
     - *start* in seconds after epoch (Unix) to begin the scan
     - *end* in seconds after epoch (Unix) to end the scan
+- *output* is the sub-part dedicated to output file params
+    - *nodes* is the name of the nodes file
+    - *links* is the name of the links file
