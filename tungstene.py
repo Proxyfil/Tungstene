@@ -141,14 +141,17 @@ def scan_game():
     print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
 
     while(time.time() < config["requests"]["end"]):
-        if(config["scan"]["language"] != ""):
-            streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
-        else:
-            streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"])["data"]
-        for channel in streamers_list:
-            resp = api_requests(channel["user_login"])
-            database = verification(database,resp,channel["user_login"])
-        write("global_map.json",database)
+        try:
+            if(config["scan"]["language"] != ""):
+                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+            else:
+                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"])["data"]
+            for channel in streamers_list:
+                resp = api_requests(channel["user_login"])
+                database = verification(database,resp,channel["user_login"])
+            write("global_map.json",database)
+        except:
+            pass
 
         print(f"[LOGS] Everything went right. Waiting for next scan")
         time.sleep(config["requests"]["delay"])
@@ -183,14 +186,17 @@ def scan_language():
     print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
 
     while(time.time() < config["requests"]["end"]):
-        if(config["scan"]["game_id"] != ""):
-            streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
-        else:
-            streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
-        for channel in streamers_list:
-            resp = api_requests(channel["user_login"])
-            database = verification(database,resp,channel["user_login"])
-        write("global_map.json",database)
+        try:
+            if(config["scan"]["game_id"] != ""):
+                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+            else:
+                streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+            for channel in streamers_list:
+                resp = api_requests(channel["user_login"])
+                database = verification(database,resp,channel["user_login"])
+            write("global_map.json",database)
+        except:
+            pass
 
         print(f"[LOGS] Everything went right. Waiting for next scan")
         time.sleep(config["requests"]["delay"])
@@ -225,11 +231,14 @@ def scan_global():
     print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
 
     while(time.time() < config["requests"]["end"]):
-        streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"])["data"]
-        for channel in streamers_list:
-            resp = api_requests(channel["user_login"])
-            database = verification(database,resp,channel["user_login"])
-        write("global_map.json",database)
+        try:
+            streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"])["data"]
+            for channel in streamers_list:
+                resp = api_requests(channel["user_login"])
+                database = verification(database,resp,channel["user_login"])
+            write("global_map.json",database)
+        except:
+            pass
 
         print(f"[LOGS] Everything went right. Waiting for next scan")
         time.sleep(config["requests"]["delay"])
