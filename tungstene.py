@@ -7,6 +7,9 @@ import json
 #Variables Declarements
 config_file = "config.yml"
 
+config_yml = open(config_file,"r",encoding="utf-8")
+config = yaml.load(config_yml, Loader=yaml.loader.SafeLoader)
+
 #Functions Declarement
 def api_requests(channel):
     r = requests.get('https://tmi.twitch.tv/group/user/'+channel+'/chatters')
@@ -60,9 +63,6 @@ def main():
     display_init()
     print(f"[WARMUP] Starting every protocols...")
     print(f"[WARMUP] Config file as {config_file}")
-
-    config_yml = open(config_file,"r",encoding="utf-8")
-    config = yaml.load(config_yml, Loader=yaml.loader.SafeLoader)
 
     if(config["requests"]["start"]-time.time() < 0):
         print("[ERROR] Start timestamp is in the past. Setting start time in 1 second")
