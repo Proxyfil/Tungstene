@@ -31,5 +31,5 @@ requests :
   start : 1644848100.0
   end : 1644848400.0
 output:
-  node: "nodes.json"
+  nodes: "nodes.json"
   links: "links.json"
