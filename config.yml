@@ -1,35 +1,15 @@
 requests :
-  streamers : 
-    - pawm__
-    - unepetitemarie
-    - llaudem
-    - revilio_
-    - pomelyne
-    - priscille__
-    - kiwie_not_kiwi
-    - fakhear
-    - bungeeeeeegum
-    - diceshimi
-    - leabricot
-    - sezza
-    - p00se2
-    - maaya
-    - tofusenshi
-    - maddy
-    - tastypeachstudios
-    - davegrecoart
-    - niku_senpai
-    - mel0h
-    - emilimagine
-    - libreetsauvage
-    - paiheme
-    - volhta
-    - babadesbois
-    - kenochakun
-    - monsieurbox
   delay : 60
   start : 1644848100.0
-  end : 1644848400.0
-output:
-  nodes: "nodes.json"
-  links: "links.json"
+  end : 1744848400.0
+output :
+  nodes : "nodes.json"
+  links : "links.json"
+scan :
+  game_id : "509660"
+  language : ""
+  top_lenght : 10
+  streamers : false
+creds :
+  id_twitch : ""
+  secret_twitch : ""
