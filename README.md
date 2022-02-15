@@ -15,9 +15,9 @@ Part of Chrono-Break Project
     - *nodes* is the name of the nodes file
     - *links* is the name of the links file
 - *scan* is the sub-part dedicated to twitch requests params
-    - *game_id*
-    - *language*
-    - *top_lenght*
+    - *game_id* is set as twitch game id (can be browse by making *scan* like this : **- game_id : "" - language : "" - streamers : false**)
+    - *language* is usually 2 letters code for twitch (ex : **fr**,**en**,**es**,**de**)
+    - *top_lenght* is the number of streamers from the top you want to query (not useful when you define streamer list)
     - *streamers* contain the list of streamers logins you want to track
 - *creds* is the sub-part dedicated to tokens **Never Reveal This**
     - *id_twitch* is the id of your application (provided by Twitch)

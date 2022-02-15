@@ -11,5 +11,5 @@ scan :
   top_lenght : 10
   streamers : false
 creds :
-  id_twitch : "t9d0w8edfe5g5j49k5x16nivbgf23o"
-  secret_twitch : "hmkn87qu8aqxoro716f5v7x7mtc49l"
+  id_twitch : ""
+  secret_twitch : ""
