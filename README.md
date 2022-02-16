@@ -4,6 +4,7 @@ Part of Chrono-Break Project
 
 ## Requirements
  - **pyyaml** python lib for reading config file
+ - **twitchAPI** python lib for accessing twitch api data
 
 ## Usage
 ### *config.yml* is the default configuration file you can edit it like so :
