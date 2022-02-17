@@ -5,16 +5,17 @@ import yaml
 import json
 from twitchAPI.twitch import Twitch
 import os
+from datetime import datetime
 
 #Variables Declarements
-config_file = "config.yml"
+config_file = 'config.yml'
 
 
-config_yml = open(config_file,"r",encoding="utf-8")
+config_yml = open(config_file,'r',encoding='utf-8')
 config = yaml.load(config_yml, Loader=yaml.loader.SafeLoader)
 
-secret_client = config["creds"]["secret_twitch"]
-id_client = config["creds"]["id_twitch"]
+secret_client = config['creds']['secret_twitch']
+id_client = config['creds']['id_twitch']
 
 twitch = Twitch(id_client, secret_client)
 twitch.authenticate_app([])
@@ -22,7 +23,7 @@ twitch.authenticate_app([])
 #Functions Declarement
 def api_requests(channel):
     r = requests.get('https://tmi.twitch.tv/group/user/'+channel+'/chatters')
-    return r.json()["chatters"]["viewers"]
+    return r.json()['chatters']['viewers']
 
 def verification(database,resp,channel):
     if(channel in database.keys()):
@@ -35,14 +36,14 @@ def verification(database,resp,channel):
     return database
 
 def read(file):
-    data = open(file,"r",encoding="utf-8")
-    content = ""
+    data = open(file,'r',encoding='utf-8')
+    content = ''
     for char in data:
         content += char
     return json.loads(content)
 
 def write(file,data):
-    database_file = open(file,"w",encoding="utf-8")
+    database_file = open(file,'w',encoding='utf-8')
     json.dump(data, database_file, indent = 4)
     database_file.close()
 
@@ -64,201 +65,201 @@ def file_constructor(file):
                 nodes.append({"id": viewer, "type": "viewer"})
             links.append({"source": viewer, "target": streamer})
 
-    write(config["output"]["nodes"],nodes)
-    write(config["output"]["links"],links)
-    print(f"[LOGS] Output files written. Total users registered : {len(logins)}")
+    write(config['output']['nodes'],nodes)
+    write(config['output']['links'],links)
+    print(f'[LOGS] Output files written. Total users registered : {len(logins)}')
 
 def scan_list():
     display_init()
-    print(f"[WARMUP] Starting every protocols...")
-    print(f"[WARMUP] Config file as {config_file}")
+    print(f'[WARMUP] Starting every protocols...')
+    print(f'[WARMUP] Config file as {config_file}')
 
-    if(config["requests"]["start"]-time.time() < 0):
-        print("[ERROR] Start timestamp is in the past. Setting start time in 1 second")
-        config["requests"]["start"] = time.time()+1
+    if(config['requests']['start']-time.time() < 0):
+        print('[ERROR] Start timestamp is in the past. Setting start time in 1 second')
+        config['requests']['start'] = time.time()+1
 
-    if(config["requests"]["start"]-time.time() > config["requests"]["end"]-time.time()):
-        print("[ERROR] Start timestamp is after End Timestamp... You can't do this :/")
+    if(config['requests']['start']-time.time() > config['requests']['end']-time.time()):
+        print('[ERROR] Start timestamp is after End Timestamp... You can\'t do this :/')
         exit()
 
-    database = read("global_map.json")
+    database = read('global_map.json')
 
-    display_temp = config["requests"]["start"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["start"])
-    print(f"[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
-    time.sleep(config["requests"]["start"]-time.time())
+    display_temp = config['requests']['start']-time.time()
+    display_temp_global = time.gmtime(config['requests']['start'])
+    print(f'[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
+    time.sleep(config['requests']['start']-time.time())
 
-    display_temp = config["requests"]["end"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["end"])
-    print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
+    display_temp = config['requests']['end']-time.time()
+    display_temp_global = time.gmtime(config['requests']['end'])
+    print(f'[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
 
-    while(time.time() < config["requests"]["end"]):
-        for channel in config["scan"]["streamers"]:
+    while(time.time() < config['requests']['end']):
+        for channel in config['scan']['streamers']:
             resp = api_requests(channel)
             database = verification(database,resp,channel)
-        write("global_map.json",database)
+        write('global_map.json',database)
 
-        print(f"[LOGS] Everything went right. Waiting for next scan")
-        time.sleep(config["requests"]["delay"])
+        print(f'[LOGS] Everything went right. Waiting for next scan')
+        time.sleep(config['requests']['delay'])
 
-    print(f"[LOGS] Query ended due to time limit")
+    print(f'[LOGS] Query ended due to time limit')
 
-    file_constructor("global_map.json")
-    print(f"[EXIT] Program ended due to end of process")
+    file_constructor('global_map.json')
+    print(f'[EXIT] Program ended due to end of process')
 
 def game_scan():
     display_init()
-    print("[LOGS] No configuration set, treating this as Game ID Research")
-    games = twitch.search_categories(input("[INPUT] Category Name : "))
+    print('[LOGS] No configuration set, treating this as Game ID Research')
+    games = twitch.search_categories(input('[INPUT] Category Name : '))
 
-    for game in games["data"]:
-        print("[LOGS] " + game["name"] + " | id : " + game["id"])
+    for game in games['data']:
+        print('[LOGS] ' + game['name'] + ' | id : ' + game['id'])
 
-    print(f"[EXIT] Program ended due to end of process")
+    print(f'[EXIT] Program ended due to end of process')
 
 def scan_game():
     display_init()
-    print(f"[WARMUP] Starting every protocols...")
-    print(f"[WARMUP] Config file as {config_file}")
+    print(f'[WARMUP] Starting every protocols...')
+    print(f'[WARMUP] Config file as {config_file}')
 
-    if(config["requests"]["start"]-time.time() < 0):
-        print("[ERROR] Start timestamp is in the past. Setting start time in 1 second")
-        config["requests"]["start"] = time.time()+1
+    if(config['requests']['start']-time.time() < 0):
+        print('[ERROR] Start timestamp is in the past. Setting start time in 1 second')
+        config['requests']['start'] = time.time()+1
 
-    if(config["requests"]["start"]-time.time() > config["requests"]["end"]-time.time()):
-        print("[ERROR] Start timestamp is after End Timestamp... You can't do this :/")
+    if(config['requests']['start']-time.time() > config['requests']['end']-time.time()):
+        print('[ERROR] Start timestamp is after End Timestamp... You can\'t do this :/')
         exit()
 
-    database = read("global_map.json")
+    database = read('global_map.json')
 
-    display_temp = config["requests"]["start"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["start"])
-    print(f"[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
-    time.sleep(config["requests"]["start"]-time.time())
+    display_temp = config['requests']['start']-time.time()
+    display_temp_global = time.gmtime(config['requests']['start'])
+    print(f'[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
+    time.sleep(config['requests']['start']-time.time())
 
-    display_temp = config["requests"]["end"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["end"])
-    print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
+    display_temp = config['requests']['end']-time.time()
+    display_temp_global = time.gmtime(config['requests']['end'])
+    print(f'[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
 
-    while(time.time() < config["requests"]["end"]):
+    while(time.time() < config['requests']['end']):
         try:
-            if(config["scan"]["language"] != ""):
-                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+            if(config['scan']['language'] != ''):
+                streamers_list = twitch.get_streams(game_id = config['scan']['game_id'], first = config['scan']['top_lenght'], language = config['scan']['language'])['data']
             else:
-                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"])["data"]
+                streamers_list = twitch.get_streams(game_id = config['scan']['game_id'], first = config['scan']['top_lenght'])['data']
             for channel in streamers_list:
-                resp = api_requests(channel["user_login"])
-                database = verification(database,resp,channel["user_login"])
-            write("global_map.json",database)
-        except:
-            pass
+                resp = api_requests(channel['user_login'])
+                database = verification(database,resp,channel['user_login'])
+            write('global_map.json',database)
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
+        except ValueError:
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {ValueError}')
 
-        print(f"[LOGS] Everything went right. Waiting for next scan")
-        time.sleep(config["requests"]["delay"])
+        time.sleep(config['requests']['delay'])
 
-    print(f"[LOGS] Query ended due to time limit")
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
-    file_constructor("global_map.json")
-    print(f"[EXIT] Program ended due to end of process")
+    file_constructor('global_map.json')
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][EXIT] Program ended due to end of process')
 
 def scan_language():
     display_init()
-    print(f"[WARMUP] Starting every protocols...")
-    print(f"[WARMUP] Config file as {config_file}")
+    print(f'[WARMUP] Starting every protocols...')
+    print(f'[WARMUP] Config file as {config_file}')
 
-    if(config["requests"]["start"]-time.time() < 0):
-        print("[ERROR] Start timestamp is in the past. Setting start time in 1 second")
-        config["requests"]["start"] = time.time()+1
+    if(config['requests']['start']-time.time() < 0):
+        print('[ERROR] Start timestamp is in the past. Setting start time in 1 second')
+        config['requests']['start'] = time.time()+1
 
-    if(config["requests"]["start"]-time.time() > config["requests"]["end"]-time.time()):
-        print("[ERROR] Start timestamp is after End Timestamp... You can't do this :/")
+    if(config['requests']['start']-time.time() > config['requests']['end']-time.time()):
+        print('[ERROR] Start timestamp is after End Timestamp... You can\'t do this :/')
         exit()
 
-    database = read("global_map.json")
+    database = read('global_map.json')
 
-    display_temp = config["requests"]["start"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["start"])
-    print(f"[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
-    time.sleep(config["requests"]["start"]-time.time())
+    display_temp = config['requests']['start']-time.time()
+    display_temp_global = time.gmtime(config['requests']['start'])
+    print(f'[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
+    time.sleep(config['requests']['start']-time.time())
 
-    display_temp = config["requests"]["end"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["end"])
-    print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
+    display_temp = config['requests']['end']-time.time()
+    display_temp_global = time.gmtime(config['requests']['end'])
+    print(f'[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
 
-    while(time.time() < config["requests"]["end"]):
+    while(time.time() < config['requests']['end']):
         try:
-            if(config["scan"]["game_id"] != ""):
-                streamers_list = twitch.get_streams(game_id = config["scan"]["game_id"], first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+            if(config['scan']['game_id'] != ''):
+                streamers_list = twitch.get_streams(game_id = config['scan']['game_id'], first = config['scan']['top_lenght'], language = config['scan']['language'])['data']
             else:
-                streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"], language = config["scan"]["language"])["data"]
+                streamers_list = twitch.get_streams(first = config['scan']['top_lenght'], language = config['scan']['language'])['data']
             for channel in streamers_list:
-                resp = api_requests(channel["user_login"])
-                database = verification(database,resp,channel["user_login"])
-            write("global_map.json",database)
-        except:
-            pass
+                resp = api_requests(channel['user_login'])
+                database = verification(database,resp,channel['user_login'])
+            write('global_map.json',database)
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
+        except error:
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {error}')
 
-        print(f"[LOGS] Everything went right. Waiting for next scan")
-        time.sleep(config["requests"]["delay"])
+        time.sleep(config['requests']['delay'])
 
-    print(f"[LOGS] Query ended due to time limit")
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
-    file_constructor("global_map.json")
-    print(f"[EXIT] Program ended due to end of process")
+    file_constructor('global_map.json')
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][EXIT] Program ended due to end of process')
 
 def scan_global():
     display_init()
-    print(f"[WARMUP] Starting every protocols...")
-    print(f"[WARMUP] Config file as {config_file}")
+    print(f'[WARMUP] Starting every protocols...')
+    print(f'[WARMUP] Config file as {config_file}')
 
-    if(config["requests"]["start"]-time.time() < 0):
-        print("[ERROR] Start timestamp is in the past. Setting start time in 1 second")
-        config["requests"]["start"] = time.time()+1
+    if(config['requests']['start']-time.time() < 0):
+        print('[ERROR] Start timestamp is in the past. Setting start time in 1 second')
+        config['requests']['start'] = time.time()+1
 
-    if(config["requests"]["start"]-time.time() > config["requests"]["end"]-time.time()):
-        print("[ERROR] Start timestamp is after End Timestamp... You can't do this :/")
+    if(config['requests']['start']-time.time() > config['requests']['end']-time.time()):
+        print('[ERROR] Start timestamp is after End Timestamp... You can\'t do this :/')
         exit()
 
-    database = read("global_map.json")
+    database = read('global_map.json')
 
-    display_temp = config["requests"]["start"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["start"])
-    print(f"[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
-    time.sleep(config["requests"]["start"]-time.time())
+    display_temp = config['requests']['start']-time.time()
+    display_temp_global = time.gmtime(config['requests']['start'])
+    print(f'[WARMUP] Starting in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
+    time.sleep(config['requests']['start']-time.time())
 
-    display_temp = config["requests"]["end"]-time.time()
-    display_temp_global = time.gmtime(config["requests"]["end"])
-    print(f"[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)")
+    display_temp = config['requests']['end']-time.time()
+    display_temp_global = time.gmtime(config['requests']['end'])
+    print(f'[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
 
-    while(time.time() < config["requests"]["end"]):
+    while(time.time() < config['requests']['end']):
         try:
-            streamers_list = twitch.get_streams(first = config["scan"]["top_lenght"])["data"]
+            streamers_list = twitch.get_streams(first = config['scan']['top_lenght'])['data']
             for channel in streamers_list:
-                resp = api_requests(channel["user_login"])
-                database = verification(database,resp,channel["user_login"])
-            write("global_map.json",database)
-        except:
-            pass
+                resp = api_requests(channel['user_login'])
+                database = verification(database,resp,channel['user_login'])
+            write('global_map.json',database)
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
+        except error:
+            print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {error}')
 
-        print(f"[LOGS] Everything went right. Waiting for next scan")
-        time.sleep(config["requests"]["delay"])
+        time.sleep(config['requests']['delay'])
 
-    print(f"[LOGS] Query ended due to time limit")
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
-    file_constructor("global_map.json")
-    print(f"[EXIT] Program ended due to end of process")
-
-    
+    file_constructor('global_map.json')
+    print(f'[{datetime.now().strftime("%H:%M:%S")}][EXIT] Program ended due to end of process')
 
     
-if __name__ == "__main__":
-    if(config["scan"]["streamers"] != False):
+
+    
+if __name__ == '__main__':
+    if(config['scan']['streamers'] != False):
         scan_list()
-    elif(config["scan"]["game_id"] != ""):
+    elif(config['scan']['game_id'] != ''):
         scan_game()
-    elif(config["scan"]["language"] != ""):
+    elif(config['scan']['language'] != ''):
         scan_language()
-    elif(config["scan"]["language"] == ""):
+    elif(config['scan']['language'] == ''):
         scan_global()
     else:
         game_scan()
