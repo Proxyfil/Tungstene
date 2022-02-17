@@ -258,7 +258,7 @@ if __name__ == "__main__":
         scan_game()
     elif(config["scan"]["language"] != ""):
         scan_language()
-    elif(config["scan"]["language"] == "*"):
+    elif(config["scan"]["language"] == ""):
         scan_global()
     else:
         game_scan()
