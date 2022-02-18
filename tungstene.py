@@ -70,6 +70,15 @@ def file_constructor(file):
     write(config['output']['links'],links) #Write links.json file
     print(f'[LOGS] Output files written. Total users registered : {len(logins)}')
 
+def game_scan():
+    display_init()
+    print("[LOGS] No configuration set, treating this as Game ID Research")
+    games = twitch.search_categories(input("[INPUT] Category Name : "))
+
+    for game in games["data"]:
+        print("[LOGS] " + game["name"] + " | id : " + game["id"])
+
+    print(f"[EXIT] Program ended due to end of process")
 
 def scan(streamers_list):
     display_init() #Logo
@@ -129,7 +138,7 @@ if __name__ == '__main__':
         streamers_list = [channel['user_login'] for channel in twitch.get_streams(first = config['scan']['top_lenght'], language = config['scan']['language'])['data']]
         scan(streamers_list) #Launch Language scan
 
-    elif(config['scan']['language'] == ''): #If language is not define
+    elif(config['scan']['global_scan'] == True): #If language is not define
         streamers_list = [channel['user_login'] for channel in twitch.get_streams(first = config['scan']['top_lenght'])['data']]
         scan(streamers_list) #Launch Global scan
 
