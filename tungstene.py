@@ -66,8 +66,8 @@ def file_constructor(file):
                 nodes.append({"i":viewer,"t":"v"}) #Create node
             links.append({"s":viewer,"t":streamer}) #Create link
 
-    write(config['output']['nodes'],nodes) #Write nodes.json file
-    write(config['output']['links'],links) #Write links.json file
+    write("./data/"+config['output']['nodes'],nodes) #Write nodes.json file
+    write("./data/"+config['output']['links'],links) #Write links.json file
     print(f'[LOGS] Output files written. Total users registered : {len(logins)}')
 
 def game_scan():
@@ -93,7 +93,7 @@ def scan(streamers_list):
         print('[ERROR] Start timestamp is after End Timestamp... You can\'t do this :/')
         exit()
 
-    database = read('global_map.json') #Set global_map.json as dump file for scan
+    database = read('./data/global_map.json') #Set global_map.json as dump file for scan
 
     display_temp = config['requests']['start']-time.time()
     display_temp_global = time.gmtime(config['requests']['start'])
@@ -109,7 +109,7 @@ def scan(streamers_list):
             for channel in streamers_list: #For every streamer login in our list
                 resp = api_requests(channel)
                 database = verification(database,resp,channel)
-            write('global_map.json',database)
+            write('./data/global_map.json',database)
             print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
         except ValueError:
             print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {ValueError}')
@@ -118,11 +118,10 @@ def scan(streamers_list):
 
     print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
-    file_constructor('global_map.json') #Construct end file
+    file_constructor('./data/global_map.json') #Construct end file
     print(f'[{datetime.now().strftime("%H:%M:%S")}][EXIT] Program ended due to end of process') #End of process
 
-    
-if __name__ == '__main__':
+def main():
     if(config['scan']['streamers'] != False): #If streamer list is define in config
         streamers_list = config['scan']['streamers']
         scan(streamers_list)
@@ -144,3 +143,6 @@ if __name__ == '__main__':
 
     else:
         game_scan() #Launch GameID scan
+    
+if __name__ == '__main__':
+    main()

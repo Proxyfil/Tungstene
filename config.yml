@@ -1,15 +1,16 @@
 requests :
   delay : 60
   start : 1644848100.0
-  end : 1744848400.0
+  end : 1645469114.0
 output :
   nodes : "nodes.json"
   links : "links.json"
 scan :
-  game_id : "509660"
+  game_id : "32399"
   language : ""
   top_lenght : 10
   streamers : false
+  global_scan : false
 creds :
   id_twitch : ""
   secret_twitch : ""
