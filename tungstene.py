@@ -59,12 +59,12 @@ def file_constructor(file):
 
     for streamer in data.keys():
         logins.append(streamer) #Add streamer to list
-        nodes.append({"i":streamer,"t":"s"}) #Create node for streamer
+        nodes.append({"id":streamer,"type":"streamer","value":5}) #Create node for streamer
         for viewer in data[streamer]: #For every viewer of every streamers
             if viewer not in logins: #If viewer not registered -> create node too
                 logins.append(viewer) #Add viewer to list
-                nodes.append({"i":viewer,"t":"v"}) #Create node
-            links.append({"s":viewer,"t":streamer}) #Create link
+                nodes.append({"id":viewer,"type":"viewer","value":5}) #Create node
+            links.append({"source":viewer,"target":streamer}) #Create link
 
     write("./data/"+config['output']['nodes'],nodes) #Write nodes.json file
     write("./data/"+config['output']['links'],links) #Write links.json file
@@ -105,6 +105,7 @@ def scan(streamers_list):
     print(f'[LOGS] Starting Protocols --- Ending in {display_temp} seconds (or {display_temp_global[3]+1}:{display_temp_global[4]}:{display_temp_global[5]} {display_temp_global[2]}/{display_temp_global[1]}/{display_temp_global[0]} UTC+1)')
 
     while(time.time() < config['requests']['end']):
+        compensate = time.time()
         try:
             for channel in streamers_list: #For every streamer login in our list
                 resp = api_requests(channel)
@@ -114,7 +115,7 @@ def scan(streamers_list):
         except ValueError:
             print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {ValueError}')
 
-        time.sleep(config['requests']['delay']) #Await delay until next scan
+        time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
 
     print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
@@ -122,6 +123,8 @@ def scan(streamers_list):
     print(f'[{datetime.now().strftime("%H:%M:%S")}][EXIT] Program ended due to end of process') #End of process
 
 def main():
+    file_constructor("./data/global_map.json")
+    exit()
     if(config['scan']['streamers'] != False): #If streamer list is define in config
         streamers_list = config['scan']['streamers']
         scan(streamers_list)

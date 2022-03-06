@@ -50,7 +50,7 @@ def compression_t1(input_file):
             mother["links"].append({"source": key, "target": streamer_login})
     
     seuil = 0
-    while(len(mother["nodes"]) > 1000):
+    while(len(mother["nodes"]) > 100000):
         seuil+=0.1
         print(f"Formating mother list to seuil {seuil}")
         for node in mother["nodes"]:
@@ -64,6 +64,8 @@ def compression_t1(input_file):
     print(f"Formating mother links to seuil")
     for link in mother["links"]:
         if(link["source"] not in label_list.keys()):
+            mother["links"].remove(link)
+        elif(link["target"] not in label_list.keys()):
             mother["links"].remove(link)
 
     with open(file_path+'mother.json', 'w') as f:
