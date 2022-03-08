@@ -30,6 +30,10 @@ We can understand viewers, what they like, who they watch, for which reason. We 
 ```diff
 [07/03/2022]
 + First writting, setup project and looking for objectives
+
+[08/03/2022]
++ Project confirmed, starting thinking about it
++ MD adds and corrections
 ```
 
 ***
@@ -42,6 +46,42 @@ We can understand viewers, what they like, who they watch, for which reason. We 
 - TwitchIRC Getter
 - FrontEnd Website
 - BackEnd Website
+
+---
+
+## Techs
+
+- DB : json
+- Web : React + Framework (materialUI ?) + Node (Express for API)
+- Scripts : Python
+
+---
+
+## Data collected (where)
+
+- IRC Twitch
+- API Twitch
+- Unofficial API (TwitchTracker)
+
+---
+
+## Workflow
+
+### Pierre-Louis
+- Backend Web
+- API
+- Host
+- Requests to APIs
+
+### Ugo
+- DB (organisation, syntax)
+- GUI ?
+
+
+### Ensemble
+- Frontend Web
+- Global Program
+- Algorythms
 
 ***
 
