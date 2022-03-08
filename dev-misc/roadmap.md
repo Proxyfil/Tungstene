@@ -9,17 +9,17 @@
 ## What's this project ?
 
 This project is intended to be a new era for data-visualisation.
-The main goal is to produce large amount of data about Twitch during some define time on multiple channels (like for charity event).
+The main goal is to produce large amount of data about Twitch during some defined time on multiple channels (like for charity event).
 
-We want to go beyond viewer count and money earn. We want to show community moves, how it evolve during an event and how much these can change (at least for some time) the form of the platform.
+We want to go beyond viewer count and money earned. We want to show community moves, how it evolves during an event and how much these can change (at least for some time) the form of the platform.
 
-We will focus on IRC channel that provide many data about users connected, what is said as like as presence for streamers and viewers. We will find out the best way to show the diversity of Twitch throught open-data.
+We will focus on IRC channel that provide a lot of data about users connected, what is said, and more such as presence for streamers and viewers. We will find out the best way to show the diversity of Twitch through open-data.
 
 ***
 
 ## Why this could be a game-changer ?
 
-Today many events can't really understand their impact on community. We can only see the result but with open data we can mesurate this impact on the platform.
+Today many events can't really understand their impact on community. We can only see the result but with open data we can mesure this impact on the platform.
 
 We can understand viewers, what they like, who they watch, for which reason. We can associate all these data to help events to grow.
 
