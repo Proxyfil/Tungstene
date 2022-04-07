@@ -1,8 +1,8 @@
-<img src="../design/banner.png" width="600" height="300">
+<img src="https://media.discordapp.net/attachments/874044700309454858/951559814654357574/banner.png" width="600" height="300">
 
 # Chrono-Break Roadmap
 ### We build data visualisation future here.
-##### Project by : Pierre-Louis Leclerc and Ugo Peduzzi
+##### Project by : Proxyfil and Dragonfyr
 
 ***
 
@@ -34,6 +34,12 @@ We can understand viewers, what they like, who they watch, for which reason. We 
 [08/03/2022]
 + Project confirmed, starting thinking about it
 + MD adds and corrections
+
+[10/03/2022]
++ Replit adaptation
+
+[16/03/2022]
++ Website dev
 ```
 
 ***
@@ -67,36 +73,48 @@ We can understand viewers, what they like, who they watch, for which reason. We 
 
 ## Workflow
 
-### Pierre-Louis
+### Proxyfil
 - Backend Web
 - API
 - Host
 - Requests to APIs
 
-### Ugo
+### Dragonfyr
 - DB (organisation, syntax)
 - GUI ?
 
 
-### Ensemble
+### Together
 - Frontend Web
 - Global Program
 - Algorythms
 
+---
+
+## Parts
+- Tungstene (data collection)
+- Rhodium (data display)
 ***
 
 ## Files
 
-- **[F] data** `(Not intended to be opened by users)`
-    - [F] {date_of_scan}
-        - [f] global_map.json
-        - [f] viewers_data.json
-        - [f] streamers_data.json
-- **[F] scripts** `(Not intended to be opened by users)`
-    - [f] cb_compression.py
-    - [f] cb_data_twitch.py
-- **[F] output** `(Intended to be opened by users)`
+- **[F] Thungstene** 
+  - **[F] data** `(Not intended to be opened by users)`
+      - [F] {date_of_scan}
+          - [f] global_map.json
+          - [f] viewers_data.json
+          - [f] streamers_data.json
+  - **[F] scripts** `(Not intended to be opened by users)`
+      - [f] cb_compression.py
+      - [f] cb_data_twitch.py
+  - **[F] output** `(Intended to be opened by users)`
     - [F] {date_of_scan}
         - [f] api.json
+  - [f] tungstene.py
+  - [f] config.yml
+  - [f] README.md
+- **[F] Rhodium**
+  - **[F] -- **
+
 
 ***

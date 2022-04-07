@@ -1,0 +1,10 @@
+{
+	"streamer1":
+		{
+			"categories_streamed": {"category1":12,"category2":53},
+			"messages_amount" : 101,
+			"average_viewership": 6,
+			"top_emotes" : {"emote1":1,"emote2":151,"emote3":568},
+			"time_viewed":502
+		}
+}
