@@ -1,12 +1,14 @@
 # Tungstene
 Python Script to get every users connected to a chat Twitch. 
-Part of Chrono-Break Project
+First Part of Chrono-Break Project
 
 ## Requirements
  - **pyyaml** python lib for reading config file
  - **twitchAPI** python lib for accessing twitch api data
 
 ## Usage
+- ### *`/!\ Do not touch at the config file`*
+- ### *`/!\ All is handled by command line`*
 ### *config.yml* is the default configuration file you can edit it like so :
 - *requests* is the sub-part dedicated to requests params
     - *delay* define the time to wait between requests **(in ms)**
