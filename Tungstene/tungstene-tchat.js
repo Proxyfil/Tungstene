@@ -21,7 +21,7 @@ if (config["chat_scan"] == false){
 
 // Create Client for scan
 const client = new tmi.Client({
-	options: { debug: true, joinInterval : 500 },
+	options: { debug: true, joinInterval : 1000 },
 	identity: {
 		username: 'TungsteneBot',
 		password: "oauth:ggslk6pqrgv94uewfgpgfak14c29bg"
@@ -64,12 +64,15 @@ client.on('message', (channel, tags, message, self) => {
 		words[tags["username"]].push(message)
 	}
 	
-	if(emote_scan != []){
+	if(config['chat_scan']['words_count'] != []){
 		config["chat_scan"]["words_count"].forEach(emote => {
-			if(!count[emote]){
-				count[emote] = 0
+			if(!count[channel]){
+				count[channel] = {}
 			}
-			count[emote] += CheckEmote(` ${message} `,emote)
+			if(!count[channel][emote]){
+				count[channel][emote] = 0
+			}
+			count[channel][emote] += CheckEmote(` ${message.toLowerCase()} `,emote)
 		})
 	}
 
@@ -128,7 +131,7 @@ function CheckMessage(message,words){
   return words.some(word => message.includes(word));
 }
 function CheckEmote(message,emote){
-	let list = message.match(emote || []))
+	let list = message.match(emote || [])
 	if(list != null){
 		return list.length
 	}
