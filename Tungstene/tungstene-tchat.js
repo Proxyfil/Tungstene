@@ -24,7 +24,7 @@ const client = new tmi.Client({
 	options: { debug: true, joinInterval : 1000 },
 	identity: {
 		username: 'TungsteneBot',
-		password: "oauth:ggslk6pqrgv94uewfgpgfak14c29bg"
+		password: ""
 	},
 });
 
