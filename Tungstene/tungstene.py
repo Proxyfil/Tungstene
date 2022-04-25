@@ -216,7 +216,10 @@ def scan(streamers_list):
 		except ValueError:
 			print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {ValueError}')
 
-		time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
+		try:
+			time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
+		except ValueError:
+			print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] Scan went further than expected : going forward anyway.')
 
 	print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 

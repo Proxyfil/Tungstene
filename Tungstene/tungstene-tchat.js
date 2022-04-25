@@ -57,7 +57,7 @@ client.log.setLevel('warn');
 client.on('message', (channel, tags, message, self) => {
 
 	// Words scan
-	if(CheckMessage(` ${message} `,config["chat_scan"]["words_lookup"])){
+	if(CheckMessage(` ${message.toLowerCase()} `,config["chat_scan"]["words_lookup"])){
 		if(!words[tags["username"]]){
 			words[tags["username"]] = []
 		}
