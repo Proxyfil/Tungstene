@@ -23,8 +23,8 @@ chat_scan:
     - poncejam
 cmd_config: false
 creds:
-  id_twitch: 's3x83szo8nrz6a1k847id47xsby49b'
-  secret_twitch: '5cdjts7xkh3x3kgdpeyn6kwnvtyze1'
+  id_twitch: 
+  secret_twitch: 
 output:
   links: links.json
   nodes: nodes.json
