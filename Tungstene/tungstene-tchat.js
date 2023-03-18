@@ -24,7 +24,7 @@ const client = new tmi.Client({
 	options: { debug: true, joinInterval : 1000 },
 	identity: {
 		username: 'TungsteneBot',
-		password: "oauth:ggslk6pqrgv94uewfgpgfak14c29bg"
+		password: ""
 	},
 });
 
@@ -57,7 +57,7 @@ client.log.setLevel('warn');
 client.on('message', (channel, tags, message, self) => {
 
 	// Words scan
-	if(CheckMessage(` ${message} `,config["chat_scan"]["words_lookup"])){
+	if(CheckMessage(` ${message.toLowerCase()} `,config["chat_scan"]["words_lookup"])){
 		if(!words[tags["username"]]){
 			words[tags["username"]] = []
 		}
@@ -154,5 +154,9 @@ function update_channels(){
 }
 
 // Call for every update
+<<<<<<< HEAD
 setInterval(function () {write_file(); return true}, 60000);
 //setInterval(function(){update_channels(); return true}, 300000)
+=======
+setInterval(function () {write_file(); return true}, 30000);
+>>>>>>> 8ba98810d41fcfd7c21e1ef2a4e570506cc036e6

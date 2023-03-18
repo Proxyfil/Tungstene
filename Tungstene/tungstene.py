@@ -220,7 +220,10 @@ def scan(streamers_list):
 			write('./data/global_map.json',database)
 			print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
 
-		time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
+		try:
+			time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
+		except ValueError:
+			print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] Scan went further than expected : going forward anyway.')
 
 	print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Query ended due to time limit')
 
