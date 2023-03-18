@@ -21,5 +21,10 @@ for streamer in streamers:
 	if(twitch.get_users(logins = streamer)["data"] == []):
 		print(f'Error with {streamer}')
 
+r = requests.get('https://tmi.twitch.tv/group/user/zerator/chatters') #Get users in chat
+t = requests.get('https://tmi.twitch.tv/group/user/zerator/chatters') #Get users in chat
+for key in r.json()['chatters']:
+	print(r.json()['chatters']['viewers'])
+
 
 

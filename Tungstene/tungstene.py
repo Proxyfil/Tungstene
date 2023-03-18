@@ -22,8 +22,12 @@ twitch.authenticate_app([])
 
 #Functions Declarement
 def api_requests(channel):
+	viewer = []
 	r = requests.get('https://tmi.twitch.tv/group/user/'+channel+'/chatters') #Get users in chat
-	return r.json()['chatters']['viewers']
+	data = r.json()['chatters']
+	for key in data.keys():
+		viewer += r.json()['chatters'][key]
+	return viewer
 	
 def is_number(nbr):
 	if type(nbr) == bool:
@@ -206,15 +210,15 @@ def scan(streamers_list):
 
 	while(time.time() < config['requests']['end']):
 		compensate = time.time()
-		try:
-			for channel in streamers_list: #For every streamer login in our list
+		for channel in streamers_list: #For every streamer login in our list
+			try:
 				resp = api_requests(channel)
 				database = verification(database,resp,channel)
 				chat_stat(channel,resp)
+			except ValueError:
+				True
 			write('./data/global_map.json',database)
 			print(f'[{datetime.now().strftime("%H:%M:%S")}][LOGS] Everything went right. Waiting for next scan')
-		except ValueError:
-			print(f'[{datetime.now().strftime("%H:%M:%S")}][ERROR] An error occured, waiting for next scan : {ValueError}')
 
 		time.sleep(config['requests']['delay']-(time.time()-compensate)) #Await delay until next scan
 
@@ -242,7 +246,6 @@ def main(config):
 
 	elif(config['scan']['language'] != False): #If language is define in config
 		streamers_list = [channel['user_login'] for channel in twitch.get_streams(first = config['scan']['top_length'], language = config['scan']['language'])['data']]
-		print("salut PL et Ugo")
 		scan(streamers_list) #Launch Language scan
 
 	elif(config['scan']['global_scan'] == True): #If language is not define

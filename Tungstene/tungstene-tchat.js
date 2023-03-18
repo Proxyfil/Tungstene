@@ -1,7 +1,7 @@
 // Open Libs
 const tmi = require('tmi.js');
 const yaml = require('js-yaml');
-const fs   = require('fs');
+const fs = require('fs');
 
 // Open Config
 const config = yaml.load(fs.readFileSync('./config.yml', 'utf8'));
@@ -46,7 +46,7 @@ else{
 
 // Setup delay for beginning and 
 console.log(`[LOG] Starting in ${config["requests"]["start"]-Math.floor(Date.now()/1000)} seconds`)
-setTimeout(function() {client.connect(); console.log("[LOG] Logged")}, (config["requests"]["start"]-Math.floor(Date.now()/1000))*1000)
+setTimeout(function() {update_channels(); console.log("[LOG] Logged")}, (config["requests"]["start"]-Math.floor(Date.now()/1000))*1000)
 console.log(`[LOG] Ending in ${config["requests"]["end"]-Math.floor(Date.now()/1000)} seconds`)
 setTimeout(function() {client.disconnect(); console.log("[LOG] Unlogged"); process.exit()}, (config["requests"]["end"]-Math.floor(Date.now()/1000))*1000)
 
@@ -139,6 +139,20 @@ function CheckEmote(message,emote){
 		return 0
 	}
 }
+function update_channels(){
+	let top = fs.readFileSync('./dynamic_top.json','utf8')
+
+	top = JSON.parse(top)
+	let channels = client.channels
+	top.forEach(channel => {
+		if(!channels.includes(channel)){
+			channels.push(channel)
+		}
+	});
+	client.channels = channels
+	client.connect();
+}
 
 // Call for every update
-setInterval(function () {write_file(); return true}, 30000);
+setInterval(function () {write_file(); return true}, 60000);
+//setInterval(function(){update_channels(); return true}, 300000)
